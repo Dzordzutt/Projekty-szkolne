@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+    <title>Strona główna</title>
+  </head>
+  <body>
+  <div class="logobox">
+      <div class="pasek">
+		<a class="nazwa" href="index.html">Games Center</a>
+		<a class="pasektekst" href="info.html">Informacje</a>
+		<a class="pasektekst active" href="aplikacje.html">Wybór aplikacji</a>
+	</div>
+	<img class="logo" src="zdjecia/logo.png"></img>
+	</div>
+		<div class="box">
+		
+			<canvas id="canvas" width="1000" height="600" tabindex="1"></canvas>
+
+			
+				<script>
+				var cv = document.getElementById('canvas');
+var c = canvas.getContext('2d');
+var score = 0;
+
+//https://jsfiddle.net/bencentra/1hrnerq
+
+img = new Image();
+img.src = 'enemy.png';
+
+var ruch = false;
+var down = false;
+var up = false;
+var right = false;
+var left = false;
+var randomNumber = Math.floor((Math.random() * 10) + 1);
+var gameover = false;
+var dzwiek = new Audio('dzwiekm.mp3');
+
+function zmiana() {
+	coinn.x = Math.floor(Math.random() * cv.width);
+	coinn.y = Math.floor(Math.random() * cv.height);
+	dzwiek.play();
+}
+
+cv.addEventListener('keydown', function(event) {
+	event.preventDefault();
+	
+	if (event.keyCode === 40) { 
+		down = true;
+	}
+	if (event.keyCode === 38) { 
+		up = true;
+	}
+	if (event.keyCode === 37) { 
+		left = true;
+	}
+	if (event.keyCode === 39) { 
+		right = true;
+	}
+});
+
+
+cv.addEventListener('keyup', function(event) {
+	event.preventDefault();
+
+	if (event.keyCode === 40) {
+		down = false;
+	}
+	if (event.keyCode === 38) {
+		up = false;
+	}
+	if (event.keyCode === 37) {
+		left = false;
+	}
+	if (event.keyCode === 39) {
+		right = false;
+	}
+});
+
+
+function przeszkoda() {
+	this.w = 10
+	this.h = 300
+	this.x = cv.width / 3
+	this.y = cv.height / 2 - 180
+	w = 10
+	h = 300
+	this.rysuj = function() {
+		c.fillStyle = ("#5E5361");
+		c.fillRect(this.x, this.y, this.w, this.h);
+		c.fillRect(this.x2, this.y, this.w, this.h);
+	}
+
+
+}
+
+function przeszkoda2() {
+	this.w = 10
+	this.h = 300
+	this.x = cv.width / 3 + 300
+	this.y = cv.height / 2 - 180
+	w = 10
+	h = 300
+	this.rysuj = function() {
+		c.fillStyle = ("#5E5361");
+		c.fillRect(this.x, this.y, this.w, this.h);
+		c.fillRect(this.x2, this.y, this.w, this.h);
+	}
+
+
+}
+
+function player() {
+	this.x = cv.width / 2
+	this.y = cv.height - 20
+	this.w = 20
+	this.h = 20
+	this.speed = 4
+
+
+	this.rysuj = function() {
+
+		c.fillStyle = "rgb(37,224,116)";
+		c.fillRect(this.x, this.y, this.w, this.h);
+	}
+
+
+
+
+}
+
+function coin() {
+
+	this.x = Math.floor(Math.random() * cv.width);
+	this.y = Math.floor(Math.random() * cv.height);
+	this.w = 25;
+	this.h = 25;
+	this.rysuj = function() {
+		c.fillStyle = ("#ECC54E");
+		c.fillRect(this.x, this.y, this.w, this.h);
+	}
+}
+
+function ball() {
+	this.x = cv.width / 2
+	this.y = cv.height / 2
+	this.r = 50
+	this.xspeed = 4
+	this.yspeed = 4
+
+	this.rysuj = function() {
+		c.fillStyle = ("black");
+		c.fillRect(this.x, this.y, this.r, this.r);
+	}
+	this.ruch = function() {
+		balll.x += balll.xspeed
+		balll.y += balll.yspeed
+
+
+	}
+}
+
+function wall_kolizja() {
+	if (playerr.x < sciana.x + sciana.w &&
+		playerr.x + playerr.w > sciana.x &&
+		playerr.y < sciana.y + sciana.h &&
+		playerr.h + playerr.y > sciana.y) {
+		playerr.speed = 0.1
+		//console.log('Wykryto ruch')
+
+	} else if (playerr.x < sciana2.x + sciana2.w &&
+		playerr.x + playerr.w > sciana2.x &&
+		playerr.y < sciana2.y + sciana2.h &&
+		playerr.h + playerr.y > sciana2.y) {
+		playerr.speed = 0.2
+		//console.log('Wykryto ruch')
+
+	} else {
+		//console.log('test')
+		playerr.speed = 4
+	}
+}
+
+
+
+playerr = new player()
+coinn = new coin()
+sciana = new przeszkoda()
+sciana2 = new przeszkoda2()
+balll = new ball()
+
+
+
+function draww() {
+
+	c.clearRect(0, 0, cv.width, cv.height);
+	//narysowanie wszystkich elementów
+ 
+	playerr.rysuj()
+	coinn.rysuj()
+	balll.rysuj()
+	balll.ruch()
+   c.drawImage(img, balll.x, balll.y);
+	//licznik punktów
+	c.fillStyle = ("rgb(255,255,255)");
+	c.font = "30px arial";
+	c.fillText("Score:" + score, 30, 50);
+	
+  
+  
+ //losowanie poziomu trudności
+	if (randomNumber >= 5) {
+		sciana.rysuj()
+		sciana2.rysuj()
+		wall_kolizja()
+		c.fillStyle = ("red");
+		c.font = "30px arial";
+		c.fillText("Poziom trudny", 30, 100);
+	} else {
+		c.fillStyle = ("green");
+		c.font = "30px arial";
+		c.fillText("Poziom łatwy", 30, 100);
+	}
+  //koniec gry
+  if (gameover) {
+   
+    c.clearRect(0, 0, cv.width, cv.height);
+    c.fillStyle = ("rgb(255,255,255)");
+	c.font = "30px arial";
+	c.fillText("Koniec gry", cv.width/2-30, cv.height/2);
+    c.fillText("Zdobyte punkty: "+score, cv.width/2-30, cv.height/2+50);
+     return
+}
+
+
+
+	//Sterowanie
+	if (down) {
+		playerr.y += playerr.speed;
+	}
+	if (up) {
+		playerr.y -= playerr.speed;
+	}
+	if (right) {
+		playerr.x += playerr.speed;
+	}
+	if (left) {
+		playerr.x -= playerr.speed;
+	}
+    
+    //wykrywanie kolizji z punktem
+	if (playerr.x < coinn.x + coinn.w &&
+		playerr.x + playerr.w > coinn.x &&
+		playerr.y < coinn.y + coinn.h &&
+		playerr.h + playerr.y > coinn.y) {
+
+		ruch = true;
+	} else {
+		ruch = false;
+	}
+    
+    //animowanie 
+	window.requestAnimationFrame(draww);
+
+	//po kolizji z punktem
+	if (ruch) {
+		//console.log('xd')
+		score++;
+		playerr.w++;
+		playerr.h++;
+		playerr.y -= 0.5;
+		playerr.x -= 0.5;
+		zmiana();
+	}
+   // c.fillRect(balll.x, balll.y, balll.r, balll.r)
+    
+    //kolizja z przeciwnikiem
+    if (playerr.x < balll.x +  balll.r &&
+		playerr.x + playerr.w > balll.x &&
+		playerr.y < balll.y +  balll.r &&
+		playerr.h + playerr.y > balll.y) { 
+      gameover = true
+      console.log(gameover) 
+    }
+
+    //odbijanie od ścian piłki
+	if (balll.x   < 0 && balll.xspeed < 0) { //lewo
+		balll.xspeed = -balll.xspeed;
+	}
+	if (balll.x +balll.r > cv.width && balll.xspeed > 0) { //prawa
+		balll.xspeed = -balll.xspeed;
+	}
+	if (balll.y  < 0 && balll.yspeed < 0) { //góra
+		balll.yspeed = -balll.yspeed;
+	}
+	if (balll.y +balll.r > cv.height && balll.yspeed > 0) {
+		balll.yspeed = -balll.yspeed;
+	}
+
+	//kolizja ze gracza ze ścianami
+	if (playerr.x < 0) {
+		playerr.x = 0
+	}
+	if (playerr.y < 0) {
+		playerr.y = 0
+	}
+	if (playerr.x + playerr.w >= cv.width) {
+		playerr.x = cv.width - playerr.w
+	}
+	if (playerr.y + playerr.h >= cv.height) {
+		playerr.y = cv.height - playerr.h
+	}
+}
+
+
+function start() {
+  if (gameover==false) {
+    draww()
+}
+
+
+}
+
+start()
+console.log(gameover)
+  
+
+
+//setInterval(start(), 1)
+//uruchomienie
+//draww();
+
+				</script>
+			
+		
+
+		
+		</div>
+  </body>
+</html>
+
+

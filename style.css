@@ -1,0 +1,141 @@
+html {
+    margin: 0;
+    padding: 0;
+  }
+  
+  body { 
+   margin: 0;
+   padding: 0;
+   background-image: url('zdjecia/matrix.jpg');
+  }
+
+  .box, .box2, .box3, .boxgra3 {
+	   background-image: url('zdjecia/wood.jpg');
+  }
+  
+  .box {
+  border: 10px solid green;
+  background-color: #eee;
+  margin: auto;
+  height: 800px;
+  display: grid;
+  font-family: sans-serif;
+  font-size: 40px;
+  grid-template-columns: 2fr;
+  grid-row-gap: 50px;
+  grid-column-gap: 60px;
+  max-width: 1100px;
+}
+  .box2 {
+  border: 10px solid green;
+  background-color: #eee;
+  margin: auto;
+  height: 800px;
+  display: grid;
+  font-family: sans-serif;
+  font-size: 40px;
+  grid-template-columns: 1fr 1fr;
+  grid-row-gap: 30px;
+  grid-column-gap: 60px;
+  max-width: 1100px;
+}
+  .box3 {
+  border: 10px solid green;
+  background-color: #eee;
+  margin: auto;
+  height: 800px;
+  display: grid;
+  font-family: sans-serif;
+  font-size: 40px;
+  grid-template-columns: 1fr 1fr;
+  grid-row-gap: 50px;
+  grid-column-gap: 60px;
+  max-width: 1100px;
+}
+
+.boxgra3 {
+  border: 10px solid green;
+  background-color: #eee;
+  margin: auto;
+  height: 1400px;
+  display: grid;
+  font-family: sans-serif;
+  font-size: 40px;
+  grid-template-columns: 2fr;
+  grid-row-gap: 50px;
+  grid-column-gap: 60px;
+  max-width: 1200px;
+}
+
+.nazwa {
+  font-size: 35px;
+  color: white;
+  text-align: center;
+  margin-left: 50px;
+  text-shadow: 3px 1px black;
+}
+
+  
+.pasek {
+  overflow: hidden;
+  background: black;
+  border-bottom-left-radius: 50px 20px;
+  box-shadow: 0 0 1em green;
+}
+
+.pasektekst {
+  font-size: 30px;
+  color: white;
+  float: right;
+  text-align: center;
+  margin-right: 50px;
+  transition: 1s;
+}
+
+.square {
+  color: white;
+  height: 80%;
+  min-height: 150px;
+  border: solid 2px;
+  background-color: #eb8934;
+  border-radius: 30px;
+   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.5);
+}
+
+.logobox {
+	background: rgba(51, 170, 51, .7);
+	
+}
+.logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  height: 245px;
+  
+}
+.active {
+	border: solid 2px green;
+	border-radius: 5px;
+}
+  canvas {
+    display: block;
+    background: rgb(0,0,0);
+    border: solid 10px blue;
+	border-radius: 10px;
+  }
+
+
+footer {
+  overflow: hidden;
+  background: black;
+  box-shadow: 0 0 1em brown;
+  min-height: 50px;
+  text-align:center;
+  color: white;
+}
+
+iframe {
+	width: 65%; 
+	height: 65%;
+}
